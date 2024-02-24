@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Computer Networks 2023: Final Project</title>
+  <style>
+    body {
+      font-family: 'Gisha', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    img {
+      margin: 0 10px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .moving-title {
+      color: blue;
+      font-size: large;
+      animation: move 8s infinite alternate;
+    }
+
+    .fixed-title {
+      color: red;
+      font-size: medium;
+    }
+
+    .centered {
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    form {
+      width: 45%;
+    }
+
+    form:first-child {
+      border-right: 2px solid black;
+      padding-right: 20px;
+      margin-right: 20px;
+    }
+
+    h3 {
+      text-align: left;
+    }
+
+  </style>
+
+  <script>
+    function sendEmail() {
+      var sender = document.getElementById('sender').value;
+      var receiver = document.getElementById('receiver').value;
+      var subject = document.getElementById('subject').value;
+      var message = document.getElementById('message').value;
+
+      var mailtoLink = 'mailto:' + receiver +
+              '?subject=' + encodeURIComponent(subject) +
+              '&body=' + encodeURIComponent(message);
+
+      window.location.href = mailtoLink;
+    }
+  </script>
+</head>
+
+<body>
+
+<marquee class="moving-title">Computer Networks 2023: Final Project</marquee>
+
+<div class="centered">
+  <h2 class="fixed-title">Arielle Feher</h2>
+</div>
+
+<div class="centered">
+  <img src="maple-sunset.jpeg" alt="My Dog Maple at Sunset">
+  <img src="maple-car.jpeg" alt="My Dog Maple Driving">
+</div>
+
+<div class="centered">
+  (That's my dog Maple)
+</div>
+
+<p><a href="https://moodle.runi.ac.il/2024/course/view.php?id=2401572">Computer Networks Website</a></p>
+
+<p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">My Favorite Website!</a></p>
+
+<hr>
+
+<div class="form-container">
+  <form onsubmit="sendEmail(); return false;">
+    <h3>Write to Me!</h3>
+    <table>
+      <tr>
+        <td>Sender:</td>
+        <td><input type="text" id="sender" name="sender"></td>
+      </tr>
+      <tr>
+        <td>Receiver:</td>
+        <td><input type="text" id="receiver" name="receiver"></td>
+      </tr>
+      <tr>
+        <td>Subject:</td>
+        <td><input type="text" id="subject" name="subject"></td>
+      </tr>
+      <tr>
+        <td>Message:</td>
+        <td><textarea id="message" name="message"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center"><input type="submit" value="Submit"></td>
+      </tr>
+    </table>
+  </form>
+
+  <form action="params_info.html" method="post">
+    <h3>Want to send me parameters to my server so that I get a good grade?</h3>
+    <div>
+      <label for="textarea">Text Area:</label>
+      <textarea id="textarea" name="textarea"></textarea>
+    </div>
+    <div>
+      <label for="checkbox">Checkbox:</label>
+      <input type="checkbox" id="checkbox" name="checkbox" value="true">
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

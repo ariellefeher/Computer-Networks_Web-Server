@@ -3,6 +3,9 @@ import java.net.Socket;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class WebServer {
     private Config config;
@@ -12,14 +15,21 @@ public class WebServer {
 
     public WebServer(String configFilePath) throws IOException {
         this.config = new Config(configFilePath);
-        this.threadPool = Executors.newFixedThreadPool(config.getMaxThreads());
+
+        this.threadPool = new ThreadPoolExecutor(
+                config.getMaxThreads(),
+                config.getMaxThreads(),
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(50),
+                new ThreadPoolExecutor.CallerRunsPolicy()
+        );
         this.isRunning = true;
     }
 
     public void start() {
         try {
             serverSocket = new ServerSocket(config.getPort());
-            System.out.println("Server is listening on port " + config.getPort()+" Woohoo!");
+            System.out.println("Server is listening on port " + config.getPort() + " Woohoo!");
 
             while (isRunning) {
                 try {
@@ -31,14 +41,11 @@ public class WebServer {
                 } catch (IOException e) {
                     if (isRunning) {
                         System.out.println("Server accept error: " + e.getMessage());
-                        e.printStackTrace();
                     }
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());
-            e.printStackTrace();
         } finally {
             stop();
         }
@@ -54,7 +61,7 @@ public class WebServer {
             }
         }
         if (threadPool != null && !threadPool.isShutdown()) {
-            threadPool.shutdown();
+            threadPool.shutdownNow();
         }
     }
 
@@ -64,7 +71,6 @@ public class WebServer {
             server.start();
         } catch (IOException e) {
             System.out.println("Could not start server: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
